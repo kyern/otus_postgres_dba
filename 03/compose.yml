@@ -1,0 +1,31 @@
+version: '3.1'
+services:
+  pg_bind:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=binded
+    volumes:
+      - type: bind
+        source: ./postgres
+        target: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  pg_nobind:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=nobinded
+    ports:
+      - "5433:5432"
+  pg_client:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=client
